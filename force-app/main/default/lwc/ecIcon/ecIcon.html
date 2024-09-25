@@ -1,0 +1,93 @@
+<!--
+  Copyright (c) 2019, salesforce.com, inc.
+  All rights reserved.
+  SPDX-License-Identifier: MIT
+  For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ -->
+
+ <template>
+
+    <template lwc:if={showResourcesError}>
+        <div class="slds-m-bottom_large">
+            You are missing required resources in the head markup of your site. 
+            Please add the following to your site head markup. 
+            You only need to do this once for the site.
+        </div>
+        <pre class="display_inline-block">
+
+            <template lwc:if={fontsNotLoaded}>
+                {fontsCssHeader}<br/>
+                <template for:each={resourcesList} for:item="resource">
+                    <template lwc:if={resource.isLoaded}></template>
+                    <template lwc:else>
+                        <template lwc:if={resource.isStyle}></template>
+                        <template lwc:else>
+                            {resource.headScript}<br key={resource.key}/>
+                        </template>
+                    </template>
+                    
+                </template>
+            </template>
+            <br/>
+            <template lwc:if={stylesNotLoaded}>
+                {stylesCssHeader}<br/>
+                <template for:each={resourcesList} for:item="resource">
+                    <template lwc:if={resource.isLoaded}></template>
+                    <template lwc:else>
+                        <template lwc:if={resource.isStyle}>
+                            {resource.headScript}<br key={resource.key}/>
+                        </template>
+                    </template>
+                    
+                </template>
+            </template>
+
+            
+        </pre>
+    </template>
+
+    <template lwc:else>
+        <template lwc:if={computedIconName}>
+            <div class={ecIconWrapperClasses}>
+                <template lwc:if={isIconFa}>
+                    <div class={faWrapperClasses}>
+                        <span class={computedClass}>
+                            <span class={computedIconName}></span>
+                        </span>
+                    </div>
+                </template>
+                <template lwc:elseif={isIconGf}>
+                    <div class={faWrapperClasses}>
+                        <span class={computedClass}>{computedIconName}</span>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <div class={svgWrapperClasses}>
+                        <svg
+                            class={computedClass}
+                            focusable="false"
+                            data-key={name}
+                            aria-hidden="true"
+                        >
+                            <use xlink:href={href}></use>
+                        </svg>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <template lwc:if={isSitePreview}>
+                <div class="slds-text-align_center">
+                    <span class="faIconTmp">
+                        <span class="fa-solid fa-icons"></span>
+                    </span>
+                    <div class="slds-m-top_medium">
+                        Please select an icon from the properties panel.
+                    </div>
+                </div>
+            </template>
+        </template>
+    </template>
+
+</template>

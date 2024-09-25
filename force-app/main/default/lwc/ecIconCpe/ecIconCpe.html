@@ -1,0 +1,663 @@
+<template>
+
+    <div class="slds-m-bottom_medium slds-m-bottom_x-large slds-align_absolute-center">
+        <a href="https://iconforexperiencecloud.substack.com/p/documentation" 
+            target="_blank"
+            class="slds-button slds-button_outline-brand docLink"
+            >
+            Documentation
+            <lightning-icon class="slds-m-left_small docIcon" icon-name="utility:new_window" size="xx-small" alternative-text="Open Documentation in New Window" title="Open Documentation in New Window"></lightning-icon>
+            
+        </a>
+    </div>
+
+    <lightning-accordion allow-multiple-sections-open >
+        <lightning-accordion-section name="headMarkup" label="Head Markup Code">
+            <div class="slds-text-align_center">
+            Copy the code and paste it into the Head Markup of your site based on if it's an Aura or an LWR Site.
+            Head Markup can be found in Builder Settings > Advanced > Edit Head Markup
+            </div>
+
+            <div class="slds-m-vertical_medium slds-m-bottom_x-large slds-align_absolute-center">
+                <a href="javascript:void(0);" onclick={handleCopyToClipboard}
+                    
+                    class="slds-button slds-button_brand"
+                    >
+                    Copy for LWR
+        
+                </a>
+            </div>
+
+            <div class="slds-m-bottom_medium slds-m-bottom_x-large slds-align_absolute-center">
+                <a href="javascript:void(0);" onclick={handleCopyToClipboardAura}
+                    
+                    class="slds-button slds-button_brand"
+                    >
+                    Copy for Aura
+        
+                </a>
+            </div>
+
+        </lightning-accordion-section>
+
+    </lightning-accordion>
+
+    <lightning-accordion allow-multiple-sections-open active-section-name="settings">
+        <lightning-accordion-section name="settings" label="Settings">
+
+            <lightning-tabset>
+                <lightning-tab label="Choose Icon" class="slds-p-left_medium">
+                    <div class="slds-grid slds-wrap slds-p-top_medium">
+                        <div class="slds-size_1-of-1 slds-m-bottom_medium slds-align_absolute-center">
+                            {propInputs.chooseIconButton.label} 
+                        </div>
+                        <template lwc:if={isIconSelected}>
+                            <div class="slds-size_1-of-1 slds-align_absolute-center">
+                                <c-ec-icon 
+                                    is-cpe 
+                                    icon-name={propInputs.iconName.value} 
+                                    icon-type={propInputs.iconType.value} 
+                                    icon-style={propInputs.iconStyle.value}
+                                    icon-size=50>
+                                </c-ec-icon>
+                                <!--<template lwc:if={isIconSlds}>
+                                    <lightning-icon icon-name={propInputs.iconName.value} size="large"></lightning-icon>
+                                </template>
+                                <template lwc:else>
+                                    <c-ec-icon 
+                                        is-cpe 
+                                        icon-name={propInputs.iconName.value} 
+                                        icon-type={propInputs.iconType.value} 
+                                        icon-style={propInputs.iconStyle.value}
+                                        icon-size=50>
+                                    </c-ec-icon>
+                                </template>-->
+                            </div>
+                            <div class="slds-size_1-of-1 slds-m-top_small slds-align_absolute-center">{propInputs.iconName.value}</div>
+                            <div class="slds-size_1-of-1 slds-m-top_small slds-align_absolute-center">({propInputs.iconType.value})</div>
+                        </template>
+                        <div class="slds-size_1-of-1 slds-align_absolute-center slds-p-bottom_x-large">
+                            <lightning-button 
+                                variant="brand" 
+                                label={propInputs.chooseIconButton.buttonLabel} 
+                                title={propInputs.chooseIconButton.buttonLabel}  
+                                onclick={propInputs.chooseIconButton.clickHandler}  
+                                class={propInputs.chooseIconButton.classes} 
+                                >
+                            </lightning-button>
+                        </div>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label="Data Binding" class="slds-p-left_medium">
+                    <lightning-input 
+                        type={propInputs.dataBindedIconName.type} 
+                        label={propInputs.dataBindedIconName.label} 
+                        class={propInputs.dataBindedIconName.classes} 
+                        value={propInputs.dataBindedIconName.value}
+                        onchange={propInputs.dataBindedIconName.changeHandler} 
+                        data-key={propInputs.dataBindedIconName.key}
+                        field-level-help={propInputs.dataBindedIconName.help} 
+                        required={propInputs.dataBindedIconName.required}
+                        >
+                    </lightning-input>
+                </lightning-tab>    
+            </lightning-tabset> 
+
+
+            <lightning-tabset>
+                <lightning-tab label="Desktop" class="slds-p-left_medium">
+                    <lightning-input 
+                        type={propInputs.iconSize.type} 
+                        label={propInputs.iconSize.label} 
+                        class={propInputs.iconSize.classes} 
+                        value={propInputs.iconSize.value}
+                        onchange={propInputs.iconSize.changeHandler} 
+                        data-key={propInputs.iconSize.key}
+                        field-level-help={propInputs.iconSize.help} 
+                        required={propInputs.iconSize.required}
+                        >
+                    </lightning-input>
+
+                    <div class={propInputs.iconAlignment.classes}>
+                        <lightning-select
+                            name={propInputs.iconAlignment.key}
+                            label={propInputs.iconAlignment.label} 
+                            value={propInputs.iconAlignment.value}
+                            options={propInputs.iconAlignment.options}
+                            onchange={propInputs.iconAlignment.changeHandler}
+                            required={propInputs.iconAlignment.required}
+                            data-key={propInputs.iconAlignment.key}
+                            field-level-help={propInputs.iconAlignment.help} 
+                            ></lightning-select>
+                    </div>
+
+                    <lightning-input 
+                        type={propInputs.iconPadding.type} 
+                        label={propInputs.iconPadding.label} 
+                        class={propInputs.iconPadding.classes} 
+                        value={propInputs.iconPadding.value}
+                        onchange={propInputs.iconPadding.changeHandler} 
+                        data-key={propInputs.iconPadding.key}
+                        field-level-help={propInputs.iconPadding.help} 
+                        required={propInputs.iconPadding.required}
+                        >
+                    </lightning-input>
+
+                    <lightning-input 
+                        type={propInputs.iconPaddingVertical.type} 
+                        label={propInputs.iconPaddingVertical.label} 
+                        class={propInputs.iconPaddingVertical.classes} 
+                        value={propInputs.iconPaddingVertical.value}
+                        onchange={propInputs.iconPaddingVertical.changeHandler} 
+                        data-key={propInputs.iconPaddingVertical.key}
+                        field-level-help={propInputs.iconPaddingVertical.help} 
+                        required={propInputs.iconPaddingVertical.required}
+                        >
+                    </lightning-input>
+
+                </lightning-tab>
+
+                <lightning-tab label="Tablet" class="slds-p-left_medium">
+                    <lightning-input 
+                        type={propInputs.iconSizeTablet.type} 
+                        label={propInputs.iconSizeTablet.label} 
+                        class={propInputs.iconSizeTablet.classes} 
+                        value={propInputs.iconSizeTablet.value}
+                        onchange={propInputs.iconSizeTablet.changeHandler} 
+                        data-key={propInputs.iconSizeTablet.key}
+                        field-level-help={propInputs.iconSizeTablet.help} 
+                        required={propInputs.iconSizeTablet.required}
+                        >
+                    </lightning-input>
+
+                    <div class={propInputs.iconAlignmentTablet.classes}>
+                        <lightning-select
+                            name={propInputs.iconAlignmentTablet.key}
+                            label={propInputs.iconAlignmentTablet.label} 
+                            value={propInputs.iconAlignmentTablet.value}
+                            options={propInputs.iconAlignmentTablet.options}
+                            onchange={propInputs.iconAlignmentTablet.changeHandler}
+                            required={propInputs.iconAlignmentTablet.required}
+                            data-key={propInputs.iconAlignmentTablet.key}
+                            field-level-help={propInputs.iconAlignmentTablet.help} 
+                            ></lightning-select>
+                    </div>
+
+                    <lightning-input 
+                        type={propInputs.iconPaddingTablet.type} 
+                        label={propInputs.iconPaddingTablet.label} 
+                        class={propInputs.iconPaddingTablet.classes} 
+                        value={propInputs.iconPaddingTablet.value}
+                        onchange={propInputs.iconPaddingTablet.changeHandler} 
+                        data-key={propInputs.iconPaddingTablet.key}
+                        field-level-help={propInputs.iconPaddingTablet.help} 
+                        required={propInputs.iconPaddingTablet.required}
+                        >
+                    </lightning-input>
+
+                    <lightning-input 
+                        type={propInputs.iconPaddingVerticalTablet.type} 
+                        label={propInputs.iconPaddingVerticalTablet.label} 
+                        class={propInputs.iconPaddingVerticalTablet.classes} 
+                        value={propInputs.iconPaddingVerticalTablet.value}
+                        onchange={propInputs.iconPaddingVerticalTablet.changeHandler} 
+                        data-key={propInputs.iconPaddingVerticalTablet.key}
+                        field-level-help={propInputs.iconPaddingVerticalTablet.help} 
+                        required={propInputs.iconPaddingVerticalTablet.required}
+                        >
+                    </lightning-input>
+
+                </lightning-tab>
+
+                <lightning-tab label="Mobile" class="slds-p-left_medium">
+                    <lightning-input 
+                        type={propInputs.iconSizeMobile.type} 
+                        label={propInputs.iconSizeMobile.label} 
+                        class={propInputs.iconSizeMobile.classes} 
+                        value={propInputs.iconSizeMobile.value}
+                        onchange={propInputs.iconSizeMobile.changeHandler} 
+                        data-key={propInputs.iconSizeMobile.key}
+                        field-level-help={propInputs.iconSizeMobile.help} 
+                        required={propInputs.iconSizeMobile.required}
+                        >
+                    </lightning-input>
+
+                    <div class={propInputs.iconAlignmentMobile.classes}>
+                        <lightning-select
+                            name={propInputs.iconAlignmentMobile.key}
+                            label={propInputs.iconAlignmentMobile.label} 
+                            value={propInputs.iconAlignmentMobile.value}
+                            options={propInputs.iconAlignmentMobile.options}
+                            onchange={propInputs.iconAlignmentMobile.changeHandler}
+                            required={propInputs.iconAlignmentMobile.required}
+                            data-key={propInputs.iconAlignmentMobile.key}
+                            field-level-help={propInputs.iconAlignmentMobile.help} 
+                            ></lightning-select>
+                    </div>
+
+                    <lightning-input 
+                        type={propInputs.iconPaddingMobile.type} 
+                        label={propInputs.iconPaddingMobile.label} 
+                        class={propInputs.iconPaddingMobile.classes} 
+                        value={propInputs.iconPaddingMobile.value}
+                        onchange={propInputs.iconPaddingMobile.changeHandler} 
+                        data-key={propInputs.iconPaddingMobile.key}
+                        field-level-help={propInputs.iconPaddingMobile.help} 
+                        required={propInputs.iconPaddingMobile.required}
+                        >
+                    </lightning-input>
+
+                    <lightning-input 
+                        type={propInputs.iconPaddingVerticalMobile.type} 
+                        label={propInputs.iconPaddingVerticalMobile.label} 
+                        class={propInputs.iconPaddingVerticalMobile.classes} 
+                        value={propInputs.iconPaddingVerticalMobile.value}
+                        onchange={propInputs.iconPaddingVerticalMobile.changeHandler} 
+                        data-key={propInputs.iconPaddingVerticalMobile.key}
+                        field-level-help={propInputs.iconPaddingVerticalMobile.help} 
+                        required={propInputs.iconPaddingVerticalMobile.required}
+                        >
+                    </lightning-input>
+
+                </lightning-tab>
+
+            </lightning-tabset>
+
+
+
+            <lightning-input 
+                type={propInputs.iconColor.type} 
+                label={propInputs.iconColor.label} 
+                class={propInputs.iconColor.classes} 
+                value={propInputs.iconColor.value}
+                onchange={propInputs.iconColor.changeHandler} 
+                data-key={propInputs.iconColor.key}
+                field-level-help={propInputs.iconColor.help} 
+                required={propInputs.iconColor.required}
+                >
+            </lightning-input>
+
+            <lightning-input 
+                type={propInputs.backgroundColor.type} 
+                label={propInputs.backgroundColor.label} 
+                class={propInputs.backgroundColor.classes} 
+                value={propInputs.backgroundColor.value}
+                onchange={propInputs.backgroundColor.changeHandler} 
+                data-key={propInputs.backgroundColor.key}
+                field-level-help={propInputs.backgroundColor.help} 
+                required={propInputs.backgroundColor.required}
+                >
+            </lightning-input>
+
+            <lightning-input 
+                type={propInputs.borderSize.type} 
+                label={propInputs.borderSize.label} 
+                class={propInputs.borderSize.classes} 
+                value={propInputs.borderSize.value}
+                onchange={propInputs.borderSize.changeHandler} 
+                data-key={propInputs.borderSize.key}
+                field-level-help={propInputs.borderSize.help} 
+                required={propInputs.borderSize.required}
+                >
+            </lightning-input>
+
+            <lightning-input 
+                type={propInputs.borderColor.type} 
+                label={propInputs.borderColor.label} 
+                class={propInputs.borderColor.classes} 
+                value={propInputs.borderColor.value}
+                onchange={propInputs.borderColor.changeHandler} 
+                data-key={propInputs.borderColor.key}
+                field-level-help={propInputs.borderColor.help} 
+                required={propInputs.borderColor.required}
+                >
+            </lightning-input>
+            
+            <div class={propInputs.iconShape.classes}>
+                <lightning-select
+                    name={propInputs.iconShape.key}
+                    label={propInputs.iconShape.label} 
+                    value={propInputs.iconShape.value}
+                    options={propInputs.iconShape.options}
+                    onchange={propInputs.iconShape.changeHandler}
+                    required={propInputs.iconShape.required}
+                    data-key={propInputs.iconShape.key}
+                    field-level-help={propInputs.iconShape.help} 
+                    ></lightning-select>
+            </div>
+
+            <lightning-input 
+                type={propInputs.strokeSize.type} 
+                label={propInputs.strokeSize.label} 
+                class={propInputs.strokeSize.classes} 
+                value={propInputs.strokeSize.value}
+                onchange={propInputs.strokeSize.changeHandler} 
+                data-key={propInputs.strokeSize.key}
+                field-level-help={propInputs.strokeSize.help} 
+                required={propInputs.strokeSize.required}
+                >
+            </lightning-input>
+
+            <lightning-input 
+                type={propInputs.strokeColor.type} 
+                label={propInputs.strokeColor.label} 
+                class={propInputs.strokeColor.classes} 
+                value={propInputs.strokeColor.value}
+                onchange={propInputs.strokeColor.changeHandler} 
+                data-key={propInputs.strokeColor.key}
+                field-level-help={propInputs.strokeColor.help} 
+                required={propInputs.strokeColor.required}
+                >
+            </lightning-input>
+
+        </lightning-accordion-section>
+    </lightning-accordion>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" class={modalClass} aria-modal="true">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        size="small"
+                        alternative-text="Indicates close"
+                    >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__header">
+                    {propInputs.chooseIconButton.label} 
+                </div>
+                <div class="slds-modal__content slds-p-bottom_medium">
+                    
+                    <div class="slds-grid slds-wrap slds-m-bottom_large">
+                        <div class="slds-grid slds-wrap slds-size_12-of-12 slds-p-top_medium fixedPosition">
+                            <div class="slds-size_2-of-12 slds-p-horizontal_x-large slds-text-align_center">
+                                <p class="slds-p-bottom_small">Current Selection</p>
+                                <template lwc:if={propInputs.iconName.value}>
+                                    <c-ec-icon 
+                                            is-cpe 
+                                            icon-name={propInputs.iconName.value} 
+                                            icon-type={propInputs.iconType.value} 
+                                            icon-style={propInputs.iconStyle.value}
+                                            icon-size=50>
+                                    </c-ec-icon>
+                                    <div class="">{propInputs.iconName.value}</div>
+                                    <div class="">({propInputs.iconType.value})</div>
+                                </template>
+                                <template lwc:else>
+                                    You have not yet saved an icon. Please select an icon and save it.
+                                </template>
+                                <!--<template lwc:if={isIconSlds}>
+                                    <lightning-icon icon-name={propInputs.iconName.value} size="large"></lightning-icon>
+                                </template>
+                                <template lwc:else>
+                                    <c-ec-icon 
+                                        is-cpe 
+                                        icon-name={propInputs.iconName.value} 
+                                        icon-type={propInputs.iconType.value} 
+                                        icon-style={propInputs.iconStyle.value}
+                                        icon-size=50>
+                                    </c-ec-icon>
+                                </template>-->
+                                
+
+                            </div>
+                            <div class="slds-size_2-of-12 slds-p-horizontal_x-large slds-text-align_center">
+                                <p class="slds-p-bottom_small">New Selection</p>
+                                <template lwc:if={selectedIconName}>
+                                    <c-ec-icon 
+                                        is-cpe 
+                                        icon-name={selectedIconName} 
+                                        icon-type={selectedIconType} 
+                                        icon-style={selectedIconStyle}
+                                        icon-size=50>
+                                    </c-ec-icon>
+                                    <div class="">{selectedIconName}</div>
+                                    <div class="">({selectedIconType})</div>
+                                </template>
+                                <!--<template lwc:if={isIconSldsNewSelection}>
+                                    <lightning-icon icon-name={selectedIconName} size="large"></lightning-icon>
+                                </template>
+                                <template lwc:else>
+                                    <c-ec-icon 
+                                        is-cpe 
+                                        icon-name={selectedIconName} 
+                                        icon-type={selectedIconType} 
+                                        icon-style={selectedIconStyle}
+                                        icon-size=50>
+                                    </c-ec-icon>
+                                </template>-->
+
+                            </div>
+                            <div class="slds-size_4-of-12 slds-m-bottom_medium">
+                                <lightning-input 
+                                    type="text"
+                                    label={searchLabel}
+                                    value={searchTerm}
+                                    class="slds-m-right_xx-large"
+                                    onchange={handleSearch}                                                      
+                                    >
+                                </lightning-input>
+                                <div class="slds-text-align_center slds-m-top_large">{searchMessage}</div>
+                            </div>
+
+                            <div class="slds-m-bottom_medium slds-size_2-of-12 slds-p-right_medium">
+                                <lightning-select
+                                    name="typeFilter"
+                                    label="Icon Type"
+                                    value={typeFilter}
+                                    options={typeFilterOptions}
+                                    onchange={handleTypeFilterChange}
+                                    required=false
+                                    data-key="typeFilter"
+                                    field-level-help="Filter on type of Icon: All, SLDS, Fontawesome, or Google Fonts" 
+                                    ></lightning-select>
+                            </div>
+
+                            <div class="slds-m-bottom_x-large slds-size_2-of-12 slds-p-horizontal_medium">
+                                <lightning-select
+                                    name="styleFilter"
+                                    label="Icon Style"
+                                    value={styleFilter}
+                                    options={styleFilterOptions}
+                                    onchange={handleStyleFilterChange}
+                                    required=false
+                                    data-key="styleFilter"
+                                    field-level-help="Filter on icon styles." 
+                                    ></lightning-select>
+                            </div>
+                            <div class="slds-size_12-of-12 slds-m-top_medium slds-border_bottom"></div>
+                        </div>
+
+                        <div class="slds-size_12-of-12 slds-p-vertical_large slds-m-vertical_large sectionSpacer"></div>
+
+                        <template lwc:if={searchResults}>
+                            <div class="slds-grid slds-wrap slds-size_12-of-12 slds-m-bottom_medium">
+                                <div class="slds-size_4-of-12"></div>
+                                <div class="slds-size_1-of-12">
+                                    <template lwc:if={searchPaginator.currentPageIsFirst}>
+                                        <a href="javascript:void(0);" 
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink isDisabled"
+                                            >
+                                            <lightning-icon class="slds-m-right_small pagination" icon-name="utility:left" size="xx-small" 
+                                            alternative-text="Previous" 
+                                            title="Previous"></lightning-icon>
+                                            Previous
+                                            
+                                        </a>
+                                    </template>
+                                    <template lwc:else>
+                                        <a href="javascript:void(0);" 
+                                            onclick={handlePaginationPrevious}
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink"
+                                            >
+                                            <lightning-icon class="slds-m-right_small pagination" icon-name="utility:left" size="xx-small" 
+                                            alternative-text="Previous" 
+                                            title="Previous"></lightning-icon>
+                                            Previous
+                                            
+                                        </a>
+                                    </template>
+                                </div>
+                                <div class="slds-size_2-of-12"></div>
+                                <div class="slds-size_1-of-12">
+                                    <template lwc:if={searchPaginator.currentPageIsLast}>
+                                        <a href="javascript:void(0);" 
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink isDisabled"
+                                            >
+                                            Next
+                                            <lightning-icon class="slds-m-left_small pagination" icon-name="utility:right" size="xx-small" 
+                                            alternative-text="Next" 
+                                            title="Next"></lightning-icon>
+                                            
+                                            
+                                        </a>
+                                    </template>
+                                    <template lwc:else>
+                                        <a href="javascript:void(0);" 
+                                            onclick={handlePaginationNext}
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink"
+                                            >
+                                            Next
+                                            <lightning-icon class="slds-m-left_small pagination" icon-name="utility:right" size="xx-small" 
+                                            alternative-text="Next" 
+                                            title="Next"></lightning-icon>
+                                            
+                                            
+                                        </a>
+                                    </template>
+                                </div>
+                                <div class="slds-size_4-of-12"></div>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-size_12-of-12">
+                                <template for:each={searchResults} for:item="icon">
+                                    <div key={icon.key} class="slds-size_2-of-12 slds-align_absolute-center slds-m-around_large">
+                                        <a href="javascript:void(0)" onclick={handleSelectIcon} data-id={icon.id} class={icon.classes}>
+                                            <c-ec-icon 
+                                                icon-name={icon.id} 
+                                                icon-type={icon.type} 
+                                                icon-style={icon.style}
+                                                is-cpe 
+                                                icon-size=50>
+                                            </c-ec-icon>
+                                            <div class="">{icon.id}</div>
+                                            <div class="">({icon.type})</div>
+                                            <!--<template lwc:if={icon.isExternal}>
+                                                <c-ec-icon 
+                                                    icon-name={icon.id} 
+                                                    icon-type={icon.type} 
+                                                    icon-style={icon.style}
+                                                    is-cpe 
+                                                    icon-size=50>
+                                                </c-ec-icon>
+                                                <div class="">{icon.id}</div>
+                                                <div class="">({icon.type})</div>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-icon icon-name={icon.id} size="large"></lightning-icon>
+                                                <div class="slds-m-top_small no-decoration">{icon.id}</div>
+                                                <div class="no-decoration">({icon.type})</div>
+                                            </template>-->
+                                            
+                                        </a>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-size_12-of-12 slds-m-top_medium">
+                                <div class="slds-size_4-of-12"></div>
+                                <div class="slds-size_1-of-12">
+                                    <template lwc:if={searchPaginator.currentPageIsFirst}>
+                                        <a href="javascript:void(0);" 
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink isDisabled"
+                                            >
+                                            <lightning-icon class="slds-m-right_small pagination" icon-name="utility:left" size="xx-small" 
+                                            alternative-text="Previous" 
+                                            title="Previous"></lightning-icon>
+                                            Previous
+                                            
+                                        </a>
+                                    </template>
+                                    <template lwc:else>
+                                        <a href="javascript:void(0);" 
+                                            onclick={handlePaginationPrevious}
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink"
+                                            >
+                                            <lightning-icon class="slds-m-right_small pagination" icon-name="utility:left" size="xx-small" 
+                                            alternative-text="Previous" 
+                                            title="Previous"></lightning-icon>
+                                            Previous
+                                            
+                                        </a>
+                                    </template>
+                                </div>
+                                <div class="slds-size_2-of-12"></div>
+                                <div class="slds-size_1-of-12">
+                                    <template lwc:if={searchPaginator.currentPageIsLast}>
+                                        <a href="javascript:void(0);" 
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink isDisabled"
+                                            >
+                                            Next
+                                            <lightning-icon class="slds-m-left_small pagination" icon-name="utility:right" size="xx-small" 
+                                            alternative-text="Next" 
+                                            title="Next"></lightning-icon>
+                                            
+                                            
+                                        </a>
+                                    </template>
+                                    <template lwc:else>
+                                        <a href="javascript:void(0);" 
+                                            onclick={handlePaginationNext}
+                                            class="slds-button slds-button_brand slds-p-vertical_x-small slds-p-bottom_small paginationLink"
+                                            >
+                                            Next
+                                            <lightning-icon class="slds-m-left_small pagination" icon-name="utility:right" size="xx-small" 
+                                            alternative-text="Next" 
+                                            title="Next"></lightning-icon>
+                                            
+                                            
+                                        </a>
+                                    </template>
+                                </div>
+                                <div class="slds-size_4-of-12"></div>
+                            </div>
+
+                        </template>
+
+                    </div>
+                        
+
+
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleSaveIcon}>Save</button>
+                    <button class="slds-button slds-button_brand" onclick={handleCloseModal}>Close</button>
+                    <template lwc:if={saveError}>
+                        <div class="slds-text-color_error slds-text-body_small slds-m-top_small">{saveError}</div>
+                    </template>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template if:true={displayBackdrop}>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+
+    <div class="slds-m-vertical_xx-large slds-p-vertical_xx-large"></div>
+
+</template>

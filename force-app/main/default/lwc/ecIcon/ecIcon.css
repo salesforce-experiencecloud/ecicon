@@ -1,0 +1,107 @@
+/*
+ * Copyright (c) 2019, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: MIT
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ */
+
+/*
+"Temporary" fix for Edge SVG quirk. We can remove this when it is fixed either
+at the SLDS level or at the browser level.
+ https://git.soma.salesforce.com/aura/lightning-global/issues/1349
+
+ Also prevents IE11 from gacking during some interactions
+*/
+
+:host {
+    --ecicon-icon-size: 25px;
+    --ecicon-icon-color: #838383;
+    --ecicon-background-color: ;
+    --ecicon-border-size: 0px;
+    --ecicon-border-color: ;
+    --ecicon-border-radius: 0px;
+    --ecicon-icon-padding: 5px 15px 5px 15px;
+    --ecicon-icon-padding-vertical: 5px;
+    --ecicon-icon-stroke-color: ;
+    --ecicon-icon-stroke-size: 0px;
+}
+
+.ecIconWrapperVerticalSpace {
+    padding-top: calc(var(--ecicon-icon-padding-vertical) + var(--ecicon-border-size));
+    padding-bottom: calc(var(--ecicon-icon-padding-vertical) + var(--ecicon-border-size));
+}
+
+_:-ms-lang(x),
+svg {
+    pointer-events: none;
+}
+
+.no-transform
+{
+    transform: none !important;
+}
+
+svg {
+    width: var(--ecicon-icon-size, 25px);
+    height: var(--ecicon-icon-size, 25px);
+    fill: var(--ecicon-icon-color, #838383);
+    stroke: var(--ecicon-icon-stroke-color);
+    stroke-width: var(--ecicon-icon-stroke-size);
+}
+
+.svgWrapper {
+    border: var(--ecicon-border-size, 0px) solid var(--ecicon-border-color);
+    border-radius: var(--ecicon-border-radius, 0px);
+    padding: var(--ecicon-icon-padding, 5px 10px 5px 10px);
+    background-color: var(--ecicon-background-color);
+    width: fit-content;
+    height: fit-content;
+}
+
+.svgAlignLeft {
+    margin-right: auto;
+}
+
+.svgAlignRight {
+    margin-left: auto;
+}
+
+.faIcon {
+    font-size: var(--ecicon-icon-size, 25px);
+    color: var(--ecicon-icon-color, #838383);
+    background-color: var(--ecicon-background-color);
+    border: var(--ecicon-border-size, 0px) solid var(--ecicon-border-color);
+    border-radius: var(--ecicon-border-radius, 0px);
+    padding: var(--ecicon-icon-padding, 5px 10px 5px 10px);
+    line-height: normal;
+    -webkit-text-stroke-color: var(--ecicon-icon-stroke-color);
+    -webkit-text-stroke-width: var(--ecicon-icon-stroke-size);
+}
+
+.gfIcon {
+    font-size: var(--ecicon-icon-size, 25px);
+    color: var(--ecicon-icon-color, #838383);
+    background-color: var(--ecicon-background-color);
+    border: var(--ecicon-border-size, 0px) solid var(--ecicon-border-color);
+    border-radius: var(--ecicon-border-radius, 0px);
+    padding: var(--ecicon-icon-padding, 5px 10px 5px 10px);
+    line-height: normal;
+    -webkit-text-stroke-color: var(--ecicon-icon-stroke-color);
+    -webkit-text-stroke-width: var(--ecicon-icon-stroke-size);
+}
+
+.faIconTmp {
+    font-size: 100px;
+    background: linear-gradient(to bottom, red, #e6e5e4, green, #e6e5e4, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: 4px dashed red;
+    padding: 5px 15px 5px 15px;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 2px;
+}
+
+.display_inline-block {
+    display: inline-block;
+}

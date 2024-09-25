@@ -1,0 +1,34 @@
+.selectedIcon {
+    border: 4px solid #0176d3;
+}
+
+.no-decoration {
+    text-decoration: none !important;
+}
+
+.sectionSpacer {
+    min-height: 150px;
+    background-color: white;
+}
+
+.fixedPosition {
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+}
+
+.pagination {
+    --slds-c-icon-color-foreground-default: white;
+}
+
+.paginationLink {
+    width: 100px;
+    text-align: center;
+}
+
+.isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+  }
