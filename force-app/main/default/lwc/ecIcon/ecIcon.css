@@ -24,6 +24,7 @@ at the SLDS level or at the browser level.
     --ecicon-icon-padding-vertical: 5px;
     --ecicon-icon-stroke-color: ;
     --ecicon-icon-stroke-size: 0px;
+    --ecicon-icon-transform: none;
 }
 
 .ecIconWrapperVerticalSpace {
@@ -47,6 +48,7 @@ svg {
     fill: var(--ecicon-icon-color, #838383);
     stroke: var(--ecicon-icon-stroke-color);
     stroke-width: var(--ecicon-icon-stroke-size);
+    transform: var(--ecicon-icon-transform);
 }
 
 .svgWrapper {
@@ -78,6 +80,10 @@ svg {
     -webkit-text-stroke-width: var(--ecicon-icon-stroke-size);
 }
 
+.faIcon > span {
+    transform: var(--ecicon-icon-transform);
+}
+
 .gfIcon {
     font-size: var(--ecicon-icon-size, 25px);
     color: var(--ecicon-icon-color, #838383);
@@ -88,6 +94,11 @@ svg {
     line-height: normal;
     -webkit-text-stroke-color: var(--ecicon-icon-stroke-color);
     -webkit-text-stroke-width: var(--ecicon-icon-stroke-size);
+    display: inline-flex;
+}
+
+.gfIcon > span {
+    transform: var(--ecicon-icon-transform);
 }
 
 .faIconTmp {

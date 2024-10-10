@@ -58,7 +58,9 @@
                 </template>
                 <template lwc:elseif={isIconGf}>
                     <div class={faWrapperClasses}>
-                        <span class={computedClass}>{computedIconName}</span>
+                        <span class="gfIcon">
+                            <span class={computedClass}>{computedIconName}</span>
+                        </span>
                     </div>
                 </template>
                 <template lwc:else>

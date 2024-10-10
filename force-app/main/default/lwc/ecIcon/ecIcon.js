@@ -264,6 +264,12 @@ export default class ecIcon extends LightningElement {
         return tmpvalue;
     }
 
+    get iconTransform() {
+        let tmpvalue = (generalUtils.isObjectEmpty(this.configObj?.iconTransform)) 
+        ? '' : this.configObj?.iconTransform;
+        return tmpvalue;
+    }
+
     get iconPadding() {
         let tmpvalue = (generalUtils.isObjectEmpty(this.configObj?.iconPadding)) 
         ? '20' : this.configObj?.iconPadding;
@@ -448,6 +454,11 @@ export default class ecIcon extends LightningElement {
                 eciconWrapper.style.setProperty('--ecicon-icon-stroke-color', this.computedStrokeColor);
             }
 
+            if(generalUtils.isObjectEmpty(this.iconTransform) === false)
+            {
+                eciconWrapper.style.setProperty('--ecicon-icon-transform', 'rotate(' + this.iconTransform + 'deg)');
+            }
+
             
             eciconWrapper.style.setProperty('--ecicon-icon-padding', this.iconPaddingVertical + 'px ' + this.iconPadding + 'px ' + this.iconPaddingVertical + 'px ' + this.iconPadding + 'px');
             eciconWrapper.style.setProperty('--ecicon-icon-padding-vertical', this.iconPaddingVertical + 'px ');
@@ -531,6 +542,11 @@ export default class ecIcon extends LightningElement {
     {
         return this.computedIconType === 'gf';
     }
+
+    get isIconSlds()
+    {
+        return this.computedIconType === 'slds';
+    }
     
     get href() {
         let tmphref = this.src || iconUtils.getIconPath(this.computedIconName, dir);
@@ -577,41 +593,43 @@ export default class ecIcon extends LightningElement {
         }
 
         if(this.isIconGf === true)
-            {
-                classes.add('gfIcon');
-                classes.add('material-symbols-' + this.computedIconStyle);
+        {
+            classes.add('material-symbols-' + this.computedIconStyle);
+        }
+
+        if(this.isIconSlds === true)
+        {
+            if (normalizedVariant !== 'bare') {
+                classes.add('slds-icon');
             }
 
-        if (normalizedVariant !== 'bare') {
-            classes.add('slds-icon');
-        }
+            switch (normalizedVariant) {
+                case 'error':
+                    classes.add('slds-icon-text-error');
+                    break;
+                case 'warning':
+                    classes.add('slds-icon-text-warning');
+                    break;
+                case 'success':
+                    classes.add('slds-icon-text-success');
+                    break;
+                case 'inverse':
+                case 'bare':
+                    break;
+                default:
+                    if (!this.src) {
+                        classes.add('slds-icon-text-default');
+                    }
+            }
 
-        switch (normalizedVariant) {
-            case 'error':
-                classes.add('slds-icon-text-error');
-                break;
-            case 'warning':
-                classes.add('slds-icon-text-warning');
-                break;
-            case 'success':
-                classes.add('slds-icon-text-success');
-                break;
-            case 'inverse':
-            case 'bare':
-                break;
-            default:
-                if (!this.src) {
-                    classes.add('slds-icon-text-default');
-                }
-        }
+            if (normalizedSize !== 'medium') {
+                classes.add(`slds-icon_${normalizedSize}`);
+            }
 
-        if (normalizedSize !== 'medium') {
-            classes.add(`slds-icon_${normalizedSize}`);
-        }
-
-        if(this.noTransform)
-        {
-            classes.add('no-transform');
+            if(this.noTransform)
+            {
+                classes.add('no-transform');
+            }
         }
 
         return classes.toString();

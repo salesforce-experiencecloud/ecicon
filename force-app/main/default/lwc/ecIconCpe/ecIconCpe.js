@@ -415,6 +415,18 @@ export default class EcIconCpe extends LightningElement {
             classes: defaultCSSClasses + '', //css classes for html lightning-input tag
             changeHandler: this.handleStrokeColorChange, //onchange handler for html lightning-input tag
         },
+        iconTransform: {
+            key: 'iconTransform', //key used for html lightning-input tag identifier, must match key in propInputs
+            label: 'Rotate Icon (in degrees, 0 - 359)', //label used for html lighting-input tag
+            type: 'number', //type used for html lightning-input tag
+            help: 'Degrees in which to rotate icon', //tooltip / help text used for html lightning-input tag
+            required: false, //required used for html lightning-input tag
+            valuePath: 'iconTransform', //property path within the value object
+            value: 0, //default value
+            doSetDefaultValue: true, //set to true to set this lightning-input's default value to what is stored in the value object
+            classes: defaultCSSClasses + ' slds-m-top_medium', //css classes for html lightning-input tag
+            changeHandler: this.handleIconTransformChange, //onchange handler for html lightning-input tag
+        },
 
     };
 
@@ -885,27 +897,19 @@ export default class EcIconCpe extends LightningElement {
             
             this.displayInputErrorByDataKey('dataBindedIconName', '');
             let inputvalue = e.detail.value;
-            if(!generalUtils.isStringEmpty(inputvalue))
-            {
-                try {
-
+            inputvalue = generalUtils.isStringEmpty(inputvalue) === true ? '' : inputvalue;
                     
-                    this.propInputs.dataBindedIconName.value = inputvalue;
+            this.propInputs.dataBindedIconName.value = inputvalue;
 
-                    let tmpvalueObj = this.getValueObj();
-                    tmpvalueObj.dataBindedIconName = inputvalue;
+            let tmpvalueObj = this.getValueObj();
+            tmpvalueObj.dataBindedIconName = inputvalue;
 
-                    this.dispatchEvent(new CustomEvent("valuechange", 
-                        {detail: {value: JSON.stringify(tmpvalueObj)}}));
+            this.dispatchEvent(new CustomEvent("valuechange", 
+                {detail: {value: JSON.stringify(tmpvalueObj)}}));
 
-                } catch(e) {
-                    this.displayInputErrorByDataKey('dataBindedIconName', 'Invalid value provided.');
-                }
-            }
-            else 
-            {
-                this.displayInputErrorByDataKey('dataBindedIconName', 'Invalid value provided.');
-            }
+                
+            
+            
 
         }, typeDelay);
         
@@ -1379,6 +1383,49 @@ export default class EcIconCpe extends LightningElement {
 
         this.dispatchEvent(new CustomEvent("valuechange", 
             {detail: {value: JSON.stringify(tmpvalueObj)}}));
+    }
+
+    handleIconTransformChange(e) {
+        window.clearTimeout(this.propInputs.iconTransform.textDelayTimeout);
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        this.propInputs.iconTransform.textDelayTimeout = setTimeout(() => {
+            
+            this.displayInputErrorByDataKey('iconTransform', '');
+            let inputvalue = e.detail.value;
+        
+            try {
+
+                if(generalUtils.isStringEmpty(inputvalue) === false)
+                {
+                    inputvalue = parseInt(inputvalue);
+                    if(inputvalue < 0 || inputvalue > 359)
+                    {
+                        this.displayInputErrorByDataKey('iconTransform', 'Please provide a value between 0 and 359 degrees.');
+                        return;
+                    }
+                }
+                else 
+                {
+                    inputvalue = '';
+                }
+                
+                
+                this.propInputs.iconTransform.value = inputvalue;
+
+                let tmpvalueObj = this.getValueObj();
+                tmpvalueObj.iconTransform = inputvalue;
+
+                this.dispatchEvent(new CustomEvent("valuechange", 
+                    {detail: {value: JSON.stringify(tmpvalueObj)}}));
+                
+
+            } catch(e) {
+                this.displayInputErrorByDataKey('iconTransform', 'Invalid number provided.');
+            }
+            
+            
+
+        }, typeDelay);
     }
 
     handleCopyToClipboard(e) {
